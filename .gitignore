@@ -23,6 +23,8 @@ _UpgradeReport_Files/
 ###############
 # Directories #
 ###############
+**/node_modules/
+**/wwwroot/lib
 */bin/
 **/obj/
 **.vs/

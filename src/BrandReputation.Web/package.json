@@ -1,0 +1,9 @@
+{
+  "name": "BrandReputation",
+  "version": "1.0.0",
+  "description": "Reputación para marcas",
+  "devDependencies": {
+    "gulp": "3.9.1",
+    "bower": "1.7.9"
+  }
+}
