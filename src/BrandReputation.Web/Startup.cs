@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using BrandReputation.Web.Infraestructure.Start;
 
 namespace BrandReputation.Web
 {
@@ -16,17 +17,27 @@ namespace BrandReputation.Web
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //Habilita configuraciones con inyecciond e dependencia
+            services.AddOptions();
+
+            //Agrega las configuraciones personalizadas
+            services.AddConfigurations();
+            
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.InitDatabase(env);
+            
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name:"defaultRoute",
                     template:"{controller=Home}/{action=Index}");
             });
+
+            
             
             //loggerFactory.AddConsole();
             //

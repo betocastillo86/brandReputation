@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BrandReputation.Web.Data
+namespace BrandReputation.Data
 {
     public partial class Brand
     {

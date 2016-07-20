@@ -2,14 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace BrandReputation.Web.Data
+namespace BrandReputation.Data
 {
     public partial class BrandReputationContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+        //    optionsBuilder.UseSqlServer(@"Server=DESKTOP-DELL09\SQLEXPRESS;Database=BrandReputation;Trusted_Connection=True;");
+        //}
+
+        public BrandReputationContext(DbContextOptions<BrandReputationContext> options) : base(options)
         {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-DELL09\SQLEXPRESS;Database=BrandReputation;Trusted_Connection=True;");
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BrandReputation.Web", "BrandReputation.Web\BrandReputation.Web.xproj", "{058A247E-02C1-43E1-B423-D88CF2B04590}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BrandReputation.Data", "BrandReputation.Data\BrandReputation.Data.xproj", "{301D139E-220B-4D36-AE82-5ECB0FFBAD76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +24,16 @@ Global
 		{058A247E-02C1-43E1-B423-D88CF2B04590}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{058A247E-02C1-43E1-B423-D88CF2B04590}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{058A247E-02C1-43E1-B423-D88CF2B04590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{301D139E-220B-4D36-AE82-5ECB0FFBAD76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{301D139E-220B-4D36-AE82-5ECB0FFBAD76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{301D139E-220B-4D36-AE82-5ECB0FFBAD76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{301D139E-220B-4D36-AE82-5ECB0FFBAD76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{058A247E-02C1-43E1-B423-D88CF2B04590} = {0DDE4A44-7689-4B02-8802-D3412CB0808A}
+		{301D139E-220B-4D36-AE82-5ECB0FFBAD76} = {0DDE4A44-7689-4B02-8802-D3412CB0808A}
 	EndGlobalSection
 EndGlobal
