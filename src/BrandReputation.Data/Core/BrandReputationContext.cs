@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using BrandReputation.Data.Entities.Mapping;
 
 namespace BrandReputation.Data
 {
@@ -19,155 +20,162 @@ namespace BrandReputation.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Brand>(entity =>
-            {
-                entity.Property(e => e.AvgRating)
-                    .HasColumnType("decimal")
-                    .HasDefaultValueSql("0");
 
-                entity.Property(e => e.CreationDateUtc).HasColumnType("datetime");
+            modelBuilder.Entity<Brand>().Map();
+            modelBuilder.Entity<BrandAttribute>().Map();
+            modelBuilder.Entity<BrandRating>().Map();
+            modelBuilder.Entity<BrandType>().Map();
 
-                entity.Property(e => e.Description).IsRequired();
 
-                entity.Property(e => e.ModifiedDateUtc).HasColumnType("datetime");
+            ////modelBuilder.Entity<Brand>(entity =>
+            ////{
+            ////    entity.Property(e => e.AvgRating)
+            ////        .HasColumnType("decimal")
+            ////        .HasDefaultValueSql("0");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("varchar(50)");
+            ////    entity.Property(e => e.CreationDateUtc).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Country)
-                    .WithMany(p => p.Brand)
-                    .HasForeignKey(d => d.CountryId)
-                    .HasConstraintName("FK_Brand_Location");
+            ////    entity.Property(e => e.Description).IsRequired();
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Brand)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_Brand_User");
-            });
+            ////    entity.Property(e => e.ModifiedDateUtc).HasColumnType("datetime");
 
-            modelBuilder.Entity<BrandAttribute>(entity =>
-            {
-                entity.Property(e => e.Attribute)
-                    .IsRequired()
-                    .HasColumnType("varchar(50)");
+            ////    entity.Property(e => e.Name)
+            ////        .IsRequired()
+            ////        .HasColumnType("varchar(50)");
 
-                entity.Property(e => e.Value)
-                    .IsRequired()
-                    .HasColumnType("varchar(150)");
+            ////    entity.HasOne(d => d.Country)
+            ////        .WithMany(p => p.Brand)
+            ////        .HasForeignKey(d => d.CountryId)
+            ////        .HasConstraintName("FK_Brand_Location");
 
-                entity.HasOne(d => d.Brand)
-                    .WithMany(p => p.BrandAttribute)
-                    .HasForeignKey(d => d.BrandId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_BrandAttribute_Brand");
-            });
+            ////    entity.HasOne(d => d.User)
+            ////        .WithMany(p => p.Brand)
+            ////        .HasForeignKey(d => d.UserId)
+            ////        .OnDelete(DeleteBehavior.Restrict)
+            ////        .HasConstraintName("FK_Brand_User");
+            ////});
 
-            modelBuilder.Entity<BrandRating>(entity =>
-            {
-                entity.Property(e => e.AvgRating).HasColumnType("decimal");
+            ////modelBuilder.Entity<BrandAttribute>(entity =>
+            ////{
+            ////    entity.Property(e => e.Attribute)
+            ////        .IsRequired()
+            ////        .HasColumnType("varchar(50)");
 
-                entity.Property(e => e.RatingType)
-                    .IsRequired()
-                    .HasColumnType("varchar(10)");
+            ////    entity.Property(e => e.Value)
+            ////        .IsRequired()
+            ////        .HasColumnType("varchar(150)");
 
-                entity.HasOne(d => d.Brand)
-                    .WithMany(p => p.BrandRating)
-                    .HasForeignKey(d => d.BrandId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_BrandRating_Brand");
-            });
+            ////    entity.HasOne(d => d.Brand)
+            ////        .WithMany(p => p.BrandAttribute)
+            ////        .HasForeignKey(d => d.BrandId)
+            ////        .OnDelete(DeleteBehavior.Restrict)
+            ////        .HasConstraintName("FK_BrandAttribute_Brand");
+            ////});
 
-            modelBuilder.Entity<BrandType>(entity =>
-            {
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("varchar(50)");
-            });
+            ////modelBuilder.Entity<BrandRating>(entity =>
+            ////{
+            ////    entity.Property(e => e.AvgRating).HasColumnType("decimal");
 
-            modelBuilder.Entity<BrandTypeBrand>(entity =>
-            {
-                entity.HasOne(d => d.Brand)
-                    .WithMany(p => p.BrandTypeBrand)
-                    .HasForeignKey(d => d.BrandId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_BrandTypeBrand_Brand");
+            ////    entity.Property(e => e.RatingType)
+            ////        .IsRequired()
+            ////        .HasColumnType("varchar(10)");
 
-                entity.HasOne(d => d.BrandType)
-                    .WithMany(p => p.BrandTypeBrand)
-                    .HasForeignKey(d => d.BrandTypeId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_BrandTypeBrand_BrandType");
-            });
+            ////    entity.HasOne(d => d.Brand)
+            ////        .WithMany(p => p.BrandRating)
+            ////        .HasForeignKey(d => d.BrandId)
+            ////        .OnDelete(DeleteBehavior.Restrict)
+            ////        .HasConstraintName("FK_BrandRating_Brand");
+            ////});
 
-            modelBuilder.Entity<Location>(entity =>
-            {
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnType("varchar(50)");
+            ////modelBuilder.Entity<BrandType>(entity =>
+            ////{
+            ////    entity.Property(e => e.Name)
+            ////        .IsRequired()
+            ////        .HasColumnType("varchar(50)");
+            ////});
 
-                entity.HasOne(d => d.ParentLocation)
-                    .WithMany(p => p.InverseParentLocation)
-                    .HasForeignKey(d => d.ParentLocationId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_Location_Location");
-            });
+            ////modelBuilder.Entity<BrandTypeBrand>(entity =>
+            ////{
+            ////    entity.HasOne(d => d.Brand)
+            ////        .WithMany(p => p.BrandTypeBrand)
+            ////        .HasForeignKey(d => d.BrandId)
+            ////        .OnDelete(DeleteBehavior.Restrict)
+            ////        .HasConstraintName("FK_BrandTypeBrand_Brand");
 
-            modelBuilder.Entity<Rate>(entity =>
-            {
-                entity.Property(e => e.CreationDateUtc).HasColumnType("datetime");
+            ////    entity.HasOne(d => d.BrandType)
+            ////        .WithMany(p => p.BrandTypeBrand)
+            ////        .HasForeignKey(d => d.BrandTypeId)
+            ////        .OnDelete(DeleteBehavior.Restrict)
+            ////        .HasConstraintName("FK_BrandTypeBrand_BrandType");
+            ////});
 
-                entity.Property(e => e.Text).IsRequired();
+            ////modelBuilder.Entity<Location>(entity =>
+            ////{
+            ////    entity.Property(e => e.Name)
+            ////        .IsRequired()
+            ////        .HasColumnType("varchar(50)");
 
-                entity.HasOne(d => d.Brand)
-                    .WithMany(p => p.Rate)
-                    .HasForeignKey(d => d.BrandId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_Rate_Brand");
+            ////    entity.HasOne(d => d.ParentLocation)
+            ////        .WithMany(p => p.InverseParentLocation)
+            ////        .HasForeignKey(d => d.ParentLocationId)
+            ////        .OnDelete(DeleteBehavior.Restrict)
+            ////        .HasConstraintName("FK_Location_Location");
+            ////});
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Rate)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_Rate_User");
-            });
+            ////modelBuilder.Entity<Rate>(entity =>
+            ////{
+            ////    entity.Property(e => e.CreationDateUtc).HasColumnType("datetime");
 
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasIndex(e => e.Email)
-                    .HasName("IX_User_Email")
-                    .IsUnique();
+            ////    entity.Property(e => e.Text).IsRequired();
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+            ////    entity.HasOne(d => d.Brand)
+            ////        .WithMany(p => p.Rate)
+            ////        .HasForeignKey(d => d.BrandId)
+            ////        .OnDelete(DeleteBehavior.Restrict)
+            ////        .HasConstraintName("FK_Rate_Brand");
 
-                entity.Property(e => e.CreationDateUtc).HasColumnType("datetime");
+            ////    entity.HasOne(d => d.User)
+            ////        .WithMany(p => p.Rate)
+            ////        .HasForeignKey(d => d.UserId)
+            ////        .OnDelete(DeleteBehavior.Restrict)
+            ////        .HasConstraintName("FK_Rate_User");
+            ////});
 
-                entity.Property(e => e.Name).ValueGeneratedOnAdd();
+            ////modelBuilder.Entity<User>(entity =>
+            ////{
+            ////    entity.HasIndex(e => e.Email)
+            ////        .HasName("IX_User_Email")
+            ////        .IsUnique();
 
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasColumnType("varchar(50)");
+            ////    entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.HasOne(d => d.Country)
-                    .WithMany(p => p.User)
-                    .HasForeignKey(d => d.CountryId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_User_Location");
-            });
+            ////    entity.Property(e => e.CreationDateUtc).HasColumnType("datetime");
 
-            modelBuilder.Entity<UserExternalAuthentication>(entity =>
-            {
-                entity.Property(e => e.UserKey)
-                    .IsRequired()
-                    .HasColumnType("varchar(50)");
+            ////    entity.Property(e => e.Name).ValueGeneratedOnAdd();
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserExternalAuthentication)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FK_UserExternalAuthentication_User");
-            });
+            ////    entity.Property(e => e.Password)
+            ////        .IsRequired()
+            ////        .HasColumnType("varchar(50)");
+
+            ////    entity.HasOne(d => d.Country)
+            ////        .WithMany(p => p.User)
+            ////        .HasForeignKey(d => d.CountryId)
+            ////        .OnDelete(DeleteBehavior.Restrict)
+            ////        .HasConstraintName("FK_User_Location");
+            ////});
+
+            ////modelBuilder.Entity<UserExternalAuthentication>(entity =>
+            ////{
+            ////    entity.Property(e => e.UserKey)
+            ////        .IsRequired()
+            ////        .HasColumnType("varchar(50)");
+
+            ////    entity.HasOne(d => d.User)
+            ////        .WithMany(p => p.UserExternalAuthentication)
+            ////        .HasForeignKey(d => d.UserId)
+            ////        .OnDelete(DeleteBehavior.Restrict)
+            ////        .HasConstraintName("FK_UserExternalAuthentication_User");
+            ////});
         }
 
         public virtual DbSet<Brand> Brand { get; set; }

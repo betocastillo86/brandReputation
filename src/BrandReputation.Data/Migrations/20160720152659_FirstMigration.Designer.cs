@@ -8,7 +8,7 @@ using BrandReputation.Data;
 namespace BrandReputation.Data.Migrations
 {
     [DbContext(typeof(BrandReputationContext))]
-    [Migration("20160720034448_FirstMigration")]
+    [Migration("20160720152659_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,11 +141,9 @@ namespace BrandReputation.Data.Migrations
 
                     b.Property<bool>("Deleted");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<string>("Name");
 
-                    b.Property<int>("ParentLocationId");
+                    b.Property<int?>("ParentLocationId");
 
                     b.HasKey("Id");
 
@@ -161,15 +159,13 @@ namespace BrandReputation.Data.Migrations
 
                     b.Property<int>("BrandId");
 
-                    b.Property<DateTime>("CreationDateUtc")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime>("CreationDateUtc");
 
                     b.Property<bool>("Deleted");
 
                     b.Property<byte>("Rating");
 
-                    b.Property<string>("Text")
-                        .IsRequired();
+                    b.Property<string>("Text");
 
                     b.Property<int>("UserId");
 
@@ -184,31 +180,24 @@ namespace BrandReputation.Data.Migrations
 
             modelBuilder.Entity("BrandReputation.Data.User", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("CountryId");
 
-                    b.Property<DateTime>("CreationDateUtc")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime>("CreationDateUtc");
 
                     b.Property<int>("Email");
 
-                    b.Property<int>("Name")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Name");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<string>("Password");
 
                     b.Property<int>("RoleId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
-
-                    b.HasIndex("Email")
-                        .IsUnique()
-                        .HasName("IX_User_Email");
 
                     b.ToTable("User");
                 });
@@ -222,9 +211,7 @@ namespace BrandReputation.Data.Migrations
 
                     b.Property<int>("UserId");
 
-                    b.Property<string>("UserKey")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<string>("UserKey");
 
                     b.HasKey("Id");
 
@@ -267,20 +254,19 @@ namespace BrandReputation.Data.Migrations
                     b.HasOne("BrandReputation.Data.Brand", "Brand")
                         .WithMany("BrandTypeBrand")
                         .HasForeignKey("BrandId")
-                        .HasConstraintName("FK_BrandTypeBrand_Brand");
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BrandReputation.Data.BrandType", "BrandType")
                         .WithMany("BrandTypeBrand")
                         .HasForeignKey("BrandTypeId")
-                        .HasConstraintName("FK_BrandTypeBrand_BrandType");
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BrandReputation.Data.Location", b =>
                 {
                     b.HasOne("BrandReputation.Data.Location", "ParentLocation")
                         .WithMany("InverseParentLocation")
-                        .HasForeignKey("ParentLocationId")
-                        .HasConstraintName("FK_Location_Location");
+                        .HasForeignKey("ParentLocationId");
                 });
 
             modelBuilder.Entity("BrandReputation.Data.Rate", b =>
@@ -288,12 +274,12 @@ namespace BrandReputation.Data.Migrations
                     b.HasOne("BrandReputation.Data.Brand", "Brand")
                         .WithMany("Rate")
                         .HasForeignKey("BrandId")
-                        .HasConstraintName("FK_Rate_Brand");
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BrandReputation.Data.User", "User")
                         .WithMany("Rate")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Rate_User");
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BrandReputation.Data.User", b =>
@@ -301,7 +287,7 @@ namespace BrandReputation.Data.Migrations
                     b.HasOne("BrandReputation.Data.Location", "Country")
                         .WithMany("User")
                         .HasForeignKey("CountryId")
-                        .HasConstraintName("FK_User_Location");
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BrandReputation.Data.UserExternalAuthentication", b =>
@@ -309,7 +295,7 @@ namespace BrandReputation.Data.Migrations
                     b.HasOne("BrandReputation.Data.User", "User")
                         .WithMany("UserExternalAuthentication")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_UserExternalAuthentication_User");
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

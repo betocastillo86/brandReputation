@@ -13,7 +13,7 @@ namespace BrandReputation.Data
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public int ParentLocationId { get; set; }
+        public int? ParentLocationId { get; set; }
         public bool Deleted { get; set; }
 
         public virtual ICollection<Brand> Brand { get; set; }

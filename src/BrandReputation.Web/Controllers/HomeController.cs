@@ -19,7 +19,7 @@ namespace BrandReputation.Web.Controllers
         {
             //using (var context = new Data.BrandReputationContext())
             //{
-                _context.Brand.Where(c => c.Id > 0).ToList();
+                var x = _context.Location.Where(c => c.Id > 0).ToList();
             //}
             return View();
         }

@@ -28,15 +28,15 @@ namespace BrandReputation.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Deleted = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
-                    ParentLocationId = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    ParentLocationId = table.Column<int>(nullable: true),
+                    Deleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Location", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Location_Location",
+                        name: "FK_Location_Location_ParentLocationId",
                         column: x => x.ParentLocationId,
                         principalTable: "Location",
                         principalColumn: "Id",
@@ -47,24 +47,24 @@ namespace BrandReputation.Data.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
-                    CountryId = table.Column<int>(nullable: false),
-                    CreationDateUtc = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Email = table.Column<int>(nullable: false),
-                    Name = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Password = table.Column<string>(type: "varchar(50)", nullable: false),
-                    RoleId = table.Column<int>(nullable: false)
+                    Name = table.Column<int>(nullable: false),
+                    Email = table.Column<int>(nullable: false),
+                    Password = table.Column<string>(nullable: true),
+                    RoleId = table.Column<int>(nullable: false),
+                    CountryId = table.Column<int>(nullable: false),
+                    CreationDateUtc = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_User_Location",
+                        name: "FK_User_Location_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Location",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,12 +73,12 @@ namespace BrandReputation.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Description = table.Column<string>(nullable: false),
                     AvgRating = table.Column<decimal>(type: "decimal", nullable: false, defaultValueSql: "0"),
                     CountryId = table.Column<int>(nullable: true),
                     CreationDateUtc = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Description = table.Column<string>(nullable: false),
                     ModifiedDateUtc = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -106,17 +106,17 @@ namespace BrandReputation.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ExternalAuthenticationTypeId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
-                    UserKey = table.Column<string>(type: "varchar(50)", nullable: false)
+                    UserKey = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserExternalAuthentication", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserExternalAuthentication_User",
+                        name: "FK_UserExternalAuthentication_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,8 +125,8 @@ namespace BrandReputation.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Attribute = table.Column<string>(type: "varchar(50)", nullable: false),
                     BrandId = table.Column<int>(nullable: false),
+                    Attribute = table.Column<string>(type: "varchar(50)", nullable: false),
                     Value = table.Column<string>(type: "varchar(150)", nullable: false)
                 },
                 constraints: table =>
@@ -146,12 +146,12 @@ namespace BrandReputation.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AvgRating = table.Column<decimal>(type: "decimal", nullable: false),
                     BrandId = table.Column<int>(nullable: false),
-                    EntityId = table.Column<int>(nullable: false),
+                    Votes = table.Column<int>(nullable: false),
                     Position = table.Column<int>(nullable: false),
-                    RatingType = table.Column<string>(type: "varchar(10)", nullable: false),
-                    Votes = table.Column<int>(nullable: false)
+                    AvgRating = table.Column<decimal>(type: "decimal", nullable: false),
+                    EntityId = table.Column<int>(nullable: false),
+                    RatingType = table.Column<string>(type: "varchar(10)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -177,17 +177,17 @@ namespace BrandReputation.Data.Migrations
                 {
                     table.PrimaryKey("PK_BrandTypeBrand", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BrandTypeBrand_Brand",
+                        name: "FK_BrandTypeBrand_Brand_BrandId",
                         column: x => x.BrandId,
                         principalTable: "Brand",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BrandTypeBrand_BrandType",
+                        name: "FK_BrandTypeBrand_BrandType_BrandTypeId",
                         column: x => x.BrandTypeId,
                         principalTable: "BrandType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -197,27 +197,27 @@ namespace BrandReputation.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BrandId = table.Column<int>(nullable: false),
-                    CreationDateUtc = table.Column<DateTime>(type: "datetime", nullable: false),
+                    UserId = table.Column<int>(nullable: false),
+                    Text = table.Column<string>(nullable: true),
+                    CreationDateUtc = table.Column<DateTime>(nullable: false),
                     Deleted = table.Column<bool>(nullable: false),
-                    Rating = table.Column<byte>(nullable: false),
-                    Text = table.Column<string>(nullable: false),
-                    UserId = table.Column<int>(nullable: false)
+                    Rating = table.Column<byte>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rate", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rate_Brand",
+                        name: "FK_Rate_Brand_BrandId",
                         column: x => x.BrandId,
                         principalTable: "Brand",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Rate_User",
+                        name: "FK_Rate_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -269,12 +269,6 @@ namespace BrandReputation.Data.Migrations
                 name: "IX_User_CountryId",
                 table: "User",
                 column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_Email",
-                table: "User",
-                column: "Email",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserExternalAuthentication_UserId",
