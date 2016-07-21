@@ -1,8 +1,13 @@
 {
-	"name": "BrandReputation",
-	"private": true,
+  "name": "BrandReputation",
+  "private": true,
   "dependencies": {
     "jquery": "3.1.0",
+    "marionette": "2.4.7",
+    "requirejs": "2.2.0",
+    "json2": "*"
+  },
+  "resolutions": {
     "backbone": "1.3.3"
   }
 }

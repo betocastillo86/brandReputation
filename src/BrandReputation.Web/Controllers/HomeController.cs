@@ -17,10 +17,6 @@ namespace BrandReputation.Web.Controllers
 
         public ActionResult Index()
         {
-            //using (var context = new Data.BrandReputationContext())
-            //{
-                var x = _context.Location.Where(c => c.Id > 0).ToList();
-            //}
             return View();
         }
     }

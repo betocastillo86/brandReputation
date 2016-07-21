@@ -30,6 +30,8 @@ namespace BrandReputation.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.InitDatabase(env);
+
+            app.UseStaticFiles();
             
             app.UseMvc(routes => {
                 routes.MapRoute(
