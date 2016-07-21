@@ -25,6 +25,11 @@ namespace BrandReputation.Data
             modelBuilder.Entity<BrandAttribute>().Map();
             modelBuilder.Entity<BrandRating>().Map();
             modelBuilder.Entity<BrandType>().Map();
+            modelBuilder.Entity<BrandTypeBrand>().Map();
+            modelBuilder.Entity<Location>().Map();
+            modelBuilder.Entity<Rate>().Map();
+            modelBuilder.Entity<User>().Map();
+            modelBuilder.Entity<UserExternalAuthentication>().Map();
 
 
             ////modelBuilder.Entity<Brand>(entity =>

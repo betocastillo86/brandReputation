@@ -1,6 +1,5 @@
 ﻿define(['marionette'], function (Marionette) {
-    debugger;
-    var BrandReputationApp = new Marionette.Application.extend({
+    var BrandReputationApp = Marionette.Application.extend({
         prueba: function () {
             console.log('Entra a marionette app');
         }
@@ -8,9 +7,9 @@
 
     var newApp = new BrandReputationApp();
 
-    newApp.on('before:start', function () {
-        debugger;
+    newApp.on('start', function () {
+        Backbone.history.start();
     });
 
-    return BrandReputationApp;
+    return newApp;
 });
